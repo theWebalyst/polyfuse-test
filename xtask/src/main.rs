@@ -111,6 +111,12 @@ fn do_doc() -> anyhow::Result<()> {
     cargo()
         .arg("doc")
         .arg("--no-deps")
+        .arg("--package=polyfuse-mount")
+        .run_timeout(CARGO_DOC_TIMEOUT)?;
+
+    cargo()
+        .arg("doc")
+        .arg("--no-deps")
         .arg("--package=polyfuse-tokio")
         .run_timeout(CARGO_DOC_TIMEOUT)?;
 

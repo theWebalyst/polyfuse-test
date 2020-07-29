@@ -23,5 +23,9 @@ features = [ "io-driver", "rt-core", "signal", "sync" ]
 version = "0.3.0"
 path = "../polyfuse"
 
+[dependencies.polyfuse-mount]
+version = "0.1.0-dev"
+path = "../polyfuse-mount"
+
 [dev-dependencies]
 version-sync = "0.8"

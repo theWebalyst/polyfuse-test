@@ -2,6 +2,7 @@
 members = [
   "polyfuse",
   "polyfuse/systest",
+  "polyfuse-mount",
   "polyfuse-tokio",
 
   "examples",
