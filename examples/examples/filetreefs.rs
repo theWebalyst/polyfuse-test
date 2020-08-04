@@ -31,7 +31,7 @@ async fn main() -> anyhow::Result<()> {
         .ok_or_else(|| anyhow::anyhow!("missing mountpoint"))?;
     anyhow::ensure!(mountpoint.is_dir(), "the mountpoint must be a directory");
 
-    let memfs = MemFS::new();
+    let memfs = FileTreeFS::new();
     polyfuse_tokio::mount(memfs, mountpoint, &[]).await?;
 
     Ok(())
@@ -130,13 +130,13 @@ struct DirHandle {
     entries: Vec<Arc<DirEntry>>,
 }
 
-struct MemFS {
+struct FileTreeFS {
     inodes: Mutex<INodeTable>,
     ttl: Duration,
     dir_handles: Mutex<Slab<Arc<Mutex<DirHandle>>>>,
 }
 
-impl MemFS {
+impl FileTreeFS {
     fn new() -> Self {
         let mut inodes = INodeTable::new();
         inodes.vacant_entry().insert(INode {
@@ -707,7 +707,7 @@ impl MemFS {
 }
 
 #[polyfuse::async_trait]
-impl Filesystem for MemFS {
+impl Filesystem for FileTreeFS {
     #[allow(clippy::cognitive_complexity)]
     async fn call<'a, 'cx, T: ?Sized>(
         &'a self,
@@ -717,7 +717,7 @@ impl Filesystem for MemFS {
     where
         T: Reader + Writer + Send + Unpin,
     {
-        let span = tracing::debug_span!("MemFS::call", unique = cx.unique());
+        let span = tracing::debug_span!("FileTreeFS::call", unique = cx.unique());
         span.in_scope(|| tracing::debug!(?op));
 
         macro_rules! try_reply {
