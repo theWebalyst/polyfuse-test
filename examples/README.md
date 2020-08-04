@@ -16,6 +16,9 @@ A read-only filesystem with a single file in the root directory.
 An in-memory filesystem that demonstrates a series of filesystem features, such as reading/writing regular files, creating, removing and renaming inodes, creating the hard/symbolic links, and acquiring/modifying the node attributes.
 Some features such as file locking are omitted.
 
+### [`filetreefs`](examples/filetreefs.rs)
+A copy of memfs.rs being adapted to test ideas for a FileTree / TreeCDRT distributed filesystem on SAFE Network.
+
 ### [`passthrough`](examples/passthrough)
 A filesystem that mirrors an existing directory structure to the root. This is a port of libfuse's `passthrough_hp.cc`, which manages the inode entries referenced by the kernel using the file descriptor with `O_PATH` flag.
 
